@@ -34,9 +34,7 @@ Lesson: if the application doesn't have a functional test suite that runs *out o
 
 The test app, like most I have seen, uses a separate data set for each test. This means that if we try to run an active scan after running an entire test suite, most attacks will fail because they are acting on data that no longer exists.
 
-Instead, for my first pass, I created a new session before each test and ran the active scan after each test, before clearing the database.
-
-**TODO** burp didn't have the new session resource
+Instead, for my first pass, I created a new session before each test and ran the active scan after each test, before clearing the database. Surprisingly, burp-rest-api doesn't include a resource for this, but someone did submit a [pr](https://github.com/vmware/burp-rest-api/pull/4) which was closed unmerged due to relying on a deprecated method. I decided to merge the pr and build locally so that I could continue the assessment. ZAP includes an api method to reset the session out of the box.
 
 This worked, but meant that I had to export a separate report for each test. Besides resulting in lots of files, this also meant that zap/burp could not collapse multiple instances of the same vulnerability.
 
