@@ -16,9 +16,9 @@ The general idea is to:
 1. Trigger an active scan through the Burp/ZAP API
 1. Export the report as a build artifact in HTML and XML
 
-ZAP includes an http api in the default distribution. I checked the 'disable api key' setting in the GUI for the assessment.
+ZAP includes an http api in the default distribution. I checked the 'disable api key' setting in the GUI for the assessment. It's looks quite complete.
 
-Burp Suite does not include an http api by default, but some people at vmware wrote [an extension](https://github.com/vmware/burp-rest-api).
+Burp Suite does not include an http api by default, but some people at vmware wrote [burp-rest-api](https://github.com/vmware/burp-rest-api) that implements one. It's a well designed RESTy api (especially compared to ZAPs which consists of all GETs) but is less complete.
 
 Both ZAP and Burp can be ran in headless mode. They can also be ran in GUI mode while still exposing the API. I found this useful while debugging the setup as the results of the API calls (in the sitemap, scan queue, scope, etc) are immediatly visible.
 
@@ -36,6 +36,8 @@ The test app, like most I have seen, uses a separate data set for each test. Thi
 
 Instead, for my first pass, I created a new session before each test and ran the active scan after each test, before clearing the database.
 
+**TODO** burp didn't have the new session resource
+
 This worked, but meant that I had to export a separate report for each test. Besides resulting in lots of files, this also meant that zap/burp could not collapse multiple instances of the same vulnerability.
 
 Things could also be complicated if the tests were designed to build on each other's data. In this case, the active scan could delete or otherwise change data from one test, getting in the way of the test test due to run next.
@@ -46,6 +48,6 @@ ZAP and Burp both include a feature to conduct an active scan in real time as re
 
 The advantage with this is that we don't have to create a new session (and report) for each test as long as we wait for the active scanning to complete before moving on to the next test.
 
-Burp: no api
+Unfortunately, burp-rest-api does not have a resource for retrieving the progress of the live active scan (the queue for the live active scan is separate from active scans triggered through the gui and api). One could probably be added without too much trouble, but this was more of an investment than I was willing to make.
 
-ZAP: unconventional api worked with check-and-wait hack
+I did manage to make it work with ZAP, although the api method I needed wasn't obvious. As with Burp, the live active scan queue is separate from the triggered active scan queue. But, I found that the `/JSON/pscan/view/recordsToScan` method includes the live active scan queue (even if it's under 'pscan', meaning passive scan). The number fluxuates a lot, and sometimes hits zero briefly while the scanning is still active, so I used a spin check to wait until the queue has been at zero for five seconds before moving on to the next test.
