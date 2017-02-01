@@ -8,7 +8,7 @@ Both of these tools have been designed primarily to augment manual testing, but 
 
 It's becoming common to talk about doing this as a way that delivery teams can take more responsibility for application security, so I took a look at how practical it currently is to use these tools in an automated way. While it is definitely possible, there were a number of challenges that we need to overcome before recommending this as a solid strategy for all or most delivery teams.
 
-## Basic Overview
+## Basic Setup
 
 The general idea is to:
 
@@ -19,6 +19,8 @@ The general idea is to:
 ZAP includes an http api in the default distribution. I checked the 'disable api key' setting in the GUI for the assessment.
 
 Burp Suite does not include an http api by default, but some people at vmware wrote [an extension](https://github.com/vmware/burp-rest-api).
+
+Both ZAP and Burp can be ran in headless mode. They can also be ran in GUI mode while still exposing the API. I found this useful while debugging the setup as the results of the API calls (in the sitemap, scan queue, scope, etc) are immediatly visible.
 
 ## In Process Tests
 
@@ -32,6 +34,18 @@ Lesson: if the application doesn't have a functional test suite that runs *out o
 
 The test app, like most I have seen, uses a separate data set for each test. This means that if we try to run an active scan after running an entire test suite, most attacks will fail because they are acting on data that no longer exists.
 
-Instead, I created a new session before each test and ran the active scan after each test, before clearing the database.
+Instead, for my first pass, I created a new session before each test and ran the active scan after each test, before clearing the database.
 
 This worked, but meant that I had to export a separate report for each test. Besides resulting in lots of files, this also meant that zap/burp could not collapse multiple instances of the same vulnerability.
+
+Things could also be complicated if the tests were designed to build on each other's data. In this case, the active scan could delete or otherwise change data from one test, getting in the way of the test test due to run next.
+
+## Live Active Scan
+
+ZAP and Burp both include a feature to conduct an active scan in real time as requests/responses are sent through the proxy. Burp calls this a 'Live Active Scan' and ZAP calls it 'Attack Mode'.
+
+The advantage with this is that we don't have to create a new session (and report) for each test as long as we wait for the active scanning to complete before moving on to the next test.
+
+Burp: no api
+
+ZAP: unconventional api worked with check-and-wait hack
