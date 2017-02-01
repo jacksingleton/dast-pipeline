@@ -56,17 +56,13 @@ I did manage to make it work with ZAP, although the api method I needed wasn't o
 
 The [OWASP AppSec Pipeline](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Main) project has similar goals, but on closer look it seems their approach is different from what I have in mind. From their [pipline design patterns](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Pipeline_Design_Patterns) page:
 
-'''
-customers request AppSec services such as dynamic, static or manual assessments from the AppSec team
-'''
+> customers request AppSec services such as dynamic, static or manual assessments from the AppSec team
 
 I'm not interested in making it easier for a centralized AppSec team to manage scan results for many delivery teams, I'm trying to see how feasible it is for delivery teams *themselves* to integrate security checks into their pipeline. If some expertise is needed to interpret results, decide on or test a mitigation, etc. then I have no problem with pulling someone in from a horizonatal (security) group. But when a check fails, the delivery team themselves should respond to their light going red.
 
 In the same vein, we thought [ThreadFix](http://www.denimgroup.com/threadfix/) could be useful for aggregating and managing scan results. However, it also looks to be targeted more at centralized AppSec teams:
 
-'''
-ThreadFix allows security teams to create a consolidated view of applications and vulnerabilities, prioritize application risk decisions based on data, and transition application vulnerabilities to developers
-'''
+> ThreadFix allows security teams to create a consolidated view of applications and vulnerabilities, prioritize application risk decisions based on data, and transition application vulnerabilities to developers
 
 Also, Denim Group has decided to [discontinue work on the open source ThreadFix codebase](https://groups.google.com/d/msg/threadfix/bn2nnoWYhlg/Ma_EcrPQBgAJ), and the future of the open source project looks quite uncertain.
 
