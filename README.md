@@ -12,11 +12,9 @@ It's becoming common to talk about doing this as a way that delivery teams can t
 
 The general idea is to:
 
-1) Run functional/end-to-end/feature tests through the http proxy provided by Burp/ZAP
-
-1) Trigger an active scan through the Burp/ZAP API
-
-1) Export the report as a build artifact in HTML and XML
+1. Run functional/end-to-end/feature tests through the http proxy provided by Burp/ZAP
+1. Trigger an active scan through the Burp/ZAP API
+1. Export the report as a build artifact in HTML and XML
 
 ZAP includes an http api in the default distribution. I checked the 'disable api key' setting in the GUI for the assessment.
 
