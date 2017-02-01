@@ -51,3 +51,32 @@ The advantage with this is that we don't have to create a new session (and repor
 Unfortunately, burp-rest-api does not have a resource for retrieving the progress of the live active scan (the queue for the live active scan is separate from active scans triggered through the gui and api). One could probably be added without too much trouble, but this was more of an investment than I was willing to make.
 
 I did manage to make it work with ZAP, although the api method I needed wasn't obvious. As with Burp, the live active scan queue is separate from the triggered active scan queue. But, I found that the `/JSON/pscan/view/recordsToScan` method includes the live active scan queue (even if it's under 'pscan', meaning passive scan). The number fluxuates a lot, and sometimes hits zero briefly while the scanning is still active, so I used a spin check to wait until the queue has been at zero for five seconds before moving on to the next test.
+
+## Pipeline Prior Art
+
+The [OWASP AppSec Pipeline](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Main) project has similar goals, but on closer look it seems their approach is different from what I have in mind. From their [pipline design patterns](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Pipeline_Design_Patterns) page:
+
+'''
+customers request AppSec services such as dynamic, static or manual assessments from the AppSec team
+'''
+
+I'm not interested in making it easier for a centralized AppSec team to manage scan results for many delivery teams, I'm trying to see how feasible it is for delivery teams *themselves* to integrate security checks into their pipeline. If some expertise is needed to interpret results, decide on or test a mitigation, etc. then I have no problem with pulling someone in from a horizonatal (security) group. But when a check fails, the delivery team themselves should respond to their light going red.
+
+In the same vein, we thought [ThreadFix](http://www.denimgroup.com/threadfix/) could be useful for aggregating and managing scan results. However, it also looks to be targeted more at centralized AppSec teams:
+
+'''
+ThreadFix allows security teams to create a consolidated view of applications and vulnerabilities, prioritize application risk decisions based on data, and transition application vulnerabilities to developers
+'''
+
+Also, Denim Group has decided to [discontinue work on the open source ThreadFix codebase](https://groups.google.com/d/msg/threadfix/bn2nnoWYhlg/Ma_EcrPQBgAJ), and the future of the open source project looks quite uncertain.
+
+[Mozilla Minion](https://wiki.mozilla.org/Security/Projects/Minion) looks slightly more delivery team focused, but still seems to work on the assumption that there will be one security scanning server (Minion) that can be pointed at a number of applications. This contrasts with our approach of integrating security testing into the pipeline owned by a delivery team, integrated with functional tests also owned by that team.
+
+## Result Quality
+
+In the end, the results generated for the application I used to test were OK.
+
+ZAP included some pretty surprising false positives, including a Buffer Overflow alert (not high on my list of things to check for in a Rails web application!). 
+
+* Reports (zap with no request response data, burp pretty good)
+* False Positives
