@@ -84,6 +84,8 @@ Burp had less false positives, the main one being an XSS alert which was very cl
 
 Burb also included full request/response data in the report, as well as quite impressive descriptions and remediation advice.
 
+Both tools included a number of findings that were due to me running the application in a non-prod-like environment. Verbose error pages were enabled, https wasn't being used, and a number browser headers were not set. In my experience it's quite common to run functional tests in this type of environment, waiting until staging and prod to enable these settings. This would need to be addressed either by ignoring alerts that come up because of these settings, running tests in staging (not always possible because of data changes) or by creating a dedicated security testing environment.
+
 ## Scan Time
 
 The downside of Burps rigorous checks is that the scanning took significantly longer (> twice the time) than ZAP, even on the fastest scan setting. If we want immediate feedback and/or a gate in the build pipeline this could be a problem, but for nightly scans it's probably acceptable.
