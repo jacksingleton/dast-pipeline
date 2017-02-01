@@ -76,7 +76,16 @@ Also, Denim Group has decided to [discontinue work on the open source ThreadFix 
 
 In the end, the results generated for the application I used to test were OK.
 
-ZAP included some pretty surprising false positives, including a Buffer Overflow alert (not high on my list of things to check for in a Rails web application!). 
+ZAP included some pretty surprising false positives, including a Buffer Overflow alert (not high on my list of things to check for in a Rails web application!).
 
-* Reports (zap with no request response data, burp pretty good)
-* False Positives
+Another shortcoming is that ZAP does not include the request/response details in it's reports. When using the GUI manually this isn't so much of a problem, but when running headless, the only artifact you are left with is the report. Without knowing exactly what the scanner alerted on verifying and addressing results can be difficult.
+
+Burp had less false positives, the main one being an XSS alert which was very close to legitimate. It turned out that the application was allowing <a> tags to be submitted as input and then rendered (unencoded) on the response page. However, when I investigated further it appeared that the tag had been purposely whitelisted in an html sanitizer. Other tags were not allowed, as well as dangerous attributes like onclick, and only http/https url schemes were allowed in the href attribute.
+
+Burb also included full request/response data in the report, as well as quite impressive descriptions and remediation advice.
+
+## Scan Time
+
+The downside of Burps rigorous checks is that the scanning took significantly longer (> twice the time) than ZAP, even on the fastest scan setting. If we want immediate feedback and/or a gate in the build pipeline this could be a problem, but for nightly scans it's probably acceptable.
+
+## Addressing False Positives
