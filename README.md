@@ -28,7 +28,7 @@ The rails application I used for this assessment has a healthy suite of Capybara
 
 To work around this, I switched the driver to the selenium driver. However, this broke test isolation as database transaction rollbacks had been used to keep data from each test separate (quite common for in process tests). I had to switch from transaction isolation to using truncation with [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner). This worked for some of the tests, but caused others to fail.
 
-Lesson: if the application doesn't have a functional test suite that runs *out of process*, a decent amount of work could be required to send traffic through a proxy.
+*Lesson*: if the application doesn't have a functional test suite that runs *out of process*, a decent amount of work could be required to send traffic through a proxy.
 
 ## Test Specific Data
 
@@ -37,6 +37,8 @@ The test app, like most I have seen, uses a separate data set for each test. Thi
 Instead, for my first pass, I created a new session before each test and ran the active scan after each test, before clearing the database. Surprisingly, burp-rest-api doesn't include a resource for this, but someone did submit a [pr](https://github.com/vmware/burp-rest-api/pull/4) which was closed unmerged due to relying on a deprecated method. I decided to merge the pr and build locally so that I could continue the assessment. ZAP includes an api method to reset the session out of the box.
 
 This worked, but meant that I had to export a separate report for each test. Besides resulting in lots of files, this also meant that zap/burp could not collapse multiple instances of the same vulnerability.
+
+*Outstanding question*: Is it possible to delete the site node or context between tests (and perhaps avoid multiple reports) instead of creating an entirely new session?
 
 Things could also be complicated if the tests were designed to build on each other's data. In this case, the active scan could delete or otherwise change data from one test, getting in the way of the test test due to run next.
 
