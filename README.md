@@ -64,7 +64,7 @@ In the same vein, we thought [ThreadFix](http://www.denimgroup.com/threadfix/) c
 
 > ThreadFix allows security teams to create a consolidated view of applications and vulnerabilities, prioritize application risk decisions based on data, and transition application vulnerabilities to developers
 
-Also, Denim Group has decided to [discontinue work on the open source ThreadFix codebase](https://groups.google.com/d/msg/threadfix/bn2nnoWYhlg/Ma_EcrPQBgAJ), and the future of the open source project looks quite uncertain.
+Also, Denim Group has decided to [discontinue work on the open source ThreadFix codebase](https://groups.google.com/d/msg/threadfix/bn2nnoWYhlg/Ma_EcrPQBgAJ), so the future of the open source project looks quite uncertain.
 
 [Mozilla Minion](https://wiki.mozilla.org/Security/Projects/Minion) looks slightly more delivery team focused, but still seems to work on the assumption that there will be one security scanning server (Minion) that can be pointed at a number of applications. This contrasts with our approach of integrating security testing into the pipeline owned by a delivery team, integrated with functional tests also owned by that team.
 
