@@ -54,6 +54,8 @@ Unfortunately, burp-rest-api does not have a resource for retrieving the progres
 
 I did manage to make it work with ZAP, although the api method I needed wasn't obvious. As with Burp, the live active scan queue is separate from the triggered active scan queue. But, I found that the `/JSON/pscan/view/recordsToScan` method includes the live active scan queue (even if it's under 'pscan', meaning passive scan). The number fluxuates a lot, and sometimes hits zero briefly while the scanning is still active, so I used a spin check to wait until the queue has been at zero for five seconds before moving on to the next test.
 
+Proof of concept code for rails/rspec/capybara: [zap](rspec-zap-live-active-integration.rb), [burp](rspec-burp-live-active-integration.rb)
+
 ## Pipeline Prior Art
 
 The [OWASP AppSec Pipeline](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Main) project has similar goals, but on closer look it seems their approach is different from what I have in mind. From their [pipline design patterns](https://www.owasp.org/index.php/OWASP_AppSec_Pipeline#tab=Pipeline_Design_Patterns) page:
