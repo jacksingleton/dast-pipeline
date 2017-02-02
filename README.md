@@ -38,6 +38,8 @@ Instead, for my first pass, I created a new session before each test and ran the
 
 This worked, but meant that I had to export a separate report for each test. Besides resulting in lots of files, this also meant that zap/burp could not collapse multiple instances of the same vulnerability.
 
+Proof of concept code for rails/rspec/capybara: [zap](rspec-zap-integration.rb), [burp](rspec-burp-integration.rb)
+
 *Outstanding question*: Is it possible to delete the site node or context between tests (and perhaps avoid multiple reports) instead of creating an entirely new session?
 
 Things could also be complicated if the tests were designed to build on each other's data. In this case, the active scan could delete or otherwise change data from one test, getting in the way of the test test due to run next.
