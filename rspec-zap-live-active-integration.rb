@@ -19,7 +19,7 @@ RSpec.configure do |config|
     http = Net::HTTP::new('zap', 80, '10.0.2.2', 8080)
 
     seconds_queue_has_been_zero = 0
-    while seconds_queue_has_been_zero <= 5 do
+    while seconds_queue_has_been_zero < 5 do
       sleep(1)
 
       active_scan_queue = JSON.parse(http.get('/JSON/pscan/view/recordsToScan').body)['recordsToScan'].to_i
