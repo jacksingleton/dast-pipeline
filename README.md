@@ -52,7 +52,7 @@ The advantage with this is that we don't have to create a new session (and repor
 
 Unfortunately, burp-rest-api does not have a resource for retrieving the progress of the live active scan (the queue for the live active scan is separate from active scans triggered through the gui and api). One could probably be added without too much trouble, but this was more of an investment than I was willing to make.
 
-I did manage to make it work with ZAP, although the api method I needed wasn't obvious. As with Burp, the live active scan queue is separate from the triggered active scan queue. But, I found that the `/JSON/pscan/view/recordsToScan` method includes the live active scan queue (even if it's under 'pscan', meaning passive scan). The number fluxuates a lot, and sometimes hits zero briefly while the scanning is still active, so I used a spin check to wait until the queue has been at zero for five seconds before moving on to the next test.
+I did manage to make it work with ZAP, although the api method I needed wasn't obvious. As with Burp, the live active scan queue is separate from the triggered active scan queue. But, I found that the `/JSON/pscan/view/recordsToScan` method includes the live active scan queue (even if it's under 'pscan', meaning passive scan). The number fluxuates a lot, and sometimes hits zero briefly while the scanning is still active, so I wait until the queue has been at zero for a few seconds before moving on to the next test.
 
 Proof of concept code for rails/rspec/capybara: [zap](rspec-zap-live-active-integration.rb)
 
