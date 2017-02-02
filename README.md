@@ -24,7 +24,7 @@ Both ZAP and Burp can be ran in headless mode. They can also be ran in GUI mode 
 
 ## In Process Tests
 
-The rails application I used for this assessment has a healthy suite of Capybara tests which start the entire app (connected to a test sqlite database) and step through a number of user journeys. But, in order to speed up the tests, they ran in process using Capybara's default [RackTest driver](https://github.com/teamcapybara/capybara#racktest), which makes it impossible to send test traffic through an http proxy.
+The rails application I used for this assessment has a healthy suite of Capybara tests which start the entire app (connected to a test sqlite database) and step through a number of user journeys. But, in order to speed up the tests, they run in process using Capybara's default [RackTest driver](https://github.com/teamcapybara/capybara#racktest), which makes it impossible to send test traffic through an http proxy.
 
 To work around this, I switched the driver to the selenium driver. However, this broke test isolation as database transaction rollbacks had been used to keep data from each test separate (quite common for in process tests). I had to switch from transaction isolation to using truncation with [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner). This worked for some of the tests, but caused others to fail.
 
