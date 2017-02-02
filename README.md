@@ -100,4 +100,4 @@ I didn't find any way to flag false positives through burp-rest-api.
 
 ## Conclusion / TLDR
 
-Running ZAP or Burp in delivery pipelines is a promising idea, but the tooling isn't ready to recommend directly to delivery teams just yet. My next steps towards this would be to create realistic example projects and pipelines with different tech stacks in order to drive out the non-trivial amount of glue code that will need to be developed.
+Running ZAP or Burp in delivery pipelines is a promising idea, but the tooling isn't ready to recommend directly to delivery teams just yet. My next steps towards this would be to create realistic example projects and pipelines with different tech stacks and testing styles in order to drive out the non-trivial amount of glue code that will be needed to make things work smoothly.
