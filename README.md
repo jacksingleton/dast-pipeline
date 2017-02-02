@@ -80,7 +80,7 @@ ZAP included some pretty surprising false positives, including a Buffer Overflow
 
 Another shortcoming is that ZAP does not include the request/response details in it's reports. When using the GUI manually this isn't so much of a problem, but when running headless, the only artifact you are left with is the report. Without knowing exactly what the scanner alerted on verifying and addressing results can be difficult.
 
-Burp had less false positives, the main one being an XSS alert which was very close to legitimate. It turned out that the application was allowing `<a>` tags to be submitted as input and then rendered (unencoded) on the response page. However, when I investigated further it appeared that the tag had been purposely whitelisted in an html sanitizer. Other tags were not allowed, as well as dangerous attributes like onclick, and only http/https url schemes were allowed in the href attribute.
+Burp had less false positives, the main one being an XSS alert which was very close to legitimate. It turned out that the application was allowing `<a>` tags to be submitted as input and then rendered (unencoded) on the response page. However, when I investigated further it appeared that the tag had been purposely whitelisted in an html sanitizer. Other tags were not allowed, nor were dangerous attributes like onclick, and only http/https url schemes were allowed in the href attribute.
 
 Burb also included full request/response data in the report, as well as quite impressive descriptions and remediation advice.
 
