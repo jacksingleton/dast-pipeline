@@ -87,3 +87,13 @@ Both tools included a number of findings that were due to me running the applica
 The downside of Burps rigorous checks is that the scanning took significantly longer (> twice the time) than ZAP, even on the fastest scan setting. If we want immediate feedback and/or a gate in the build pipeline this could be a problem, but for nightly scans it's probably acceptable.
 
 ## Addressing False Positives
+
+ZAP makes it possible to flag alerts as false positives through the api, although it's not completely straight forward. The api method (`UI/alertFilter/action/addAlertFilter/`) essentially needs a combination of `ruleId` and `url` (possibly as a regex). Unfortunately the only way I could find the ruleId for an alert was to export the XML report and use the `pluginId` value. It was not included in the HTML report (I couldn't even find it in the GUI!).
+
+If I was setting this up for a delivery team, I would probably have to look through the ZAP source and put together a mapping from alert name (included in the html report) to pluginId in order for developers to easly add false positives to a configuration file.
+
+I didn't find any way to flag false positives through burp-rest-api.
+
+## Conclusion / TLDR
+
+Running ZAP or Burp in delivery pipelines is a promising idea, but the tooling isn't ready to recommend directly to delivery teams just yet. My next steps towards this would be to create realistic example projects and pipelines with different tech stacks in order to drive out the non-trivial amount of glue code that will need to be developed.
