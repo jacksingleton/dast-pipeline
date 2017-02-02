@@ -92,9 +92,9 @@ The downside of Burps rigorous checks is that the scanning took significantly lo
 
 ## Addressing False Positives
 
-ZAP makes it possible to flag alerts as false positives through the api, although it's not completely straight forward. The api method (`UI/alertFilter/action/addAlertFilter/`) essentially needs a combination of `ruleId` and `url` (possibly as a regex). Unfortunately the only way I could find the ruleId for an alert was to export the XML report and use the `pluginId` value. It was not included in the HTML report (I couldn't even find it in the GUI!).
+ZAP makes it possible to flag alerts as false positives through the api, although it's not completely straight forward. The api method (`UI/alertFilter/action/addAlertFilter/`) essentially needs a combination of `ruleId` and `url` (optionally as a regex). Unfortunately the only way I could find the ruleId for an alert was to export the XML report and use the `pluginId` value. It was not included in the HTML report (I couldn't even find it in the GUI!).
 
-If I was setting this up for a delivery team, I would probably have to look through the ZAP source and put together a mapping from alert name (included in the html report) to pluginId in order for developers to easly add false positives to a configuration file.
+If I was helping a delivery team set this up, we would probably have to look through the ZAP source and put together a mapping from alert name (included in the html report) to pluginId in order for developers to easly add false positives to a configuration file.
 
 I didn't find any way to flag false positives through burp-rest-api.
 
